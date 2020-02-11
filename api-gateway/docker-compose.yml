@@ -1,0 +1,12 @@
+version: "3.4"
+services:
+  api-gateway:
+    build: .
+    container_name: reservation_api_gateway
+    volumes:
+      - .:/usr/src/app
+    expose:
+      - "3000"
+    ports:
+      - "3000:3000"
+    command: npm run start

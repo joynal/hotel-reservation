@@ -1,0 +1,21 @@
+{
+  "name": "hotel-reservation-service",
+  "main": "src/service.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node src/service.js"
+  },
+  "devDependencies": {
+    "jest": "^25.1.0"
+  },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  },
+  "dependencies": {
+    "dotenv-safe": "^8.2.0",
+    "kafka-node": "^5.0.0",
+    "mongoose": "^5.8.11"
+  }
+}

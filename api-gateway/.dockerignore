@@ -1,0 +1,13 @@
+node_modules/
+
+.dockerignore
+Dockerfile
+
+.gitignore
+.eslintrc
+.editorconfig
+
+# Logs
+logs
+*.log
+npm-debug.log*

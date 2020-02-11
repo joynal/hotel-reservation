@@ -1,0 +1,62 @@
+version: "3.4"
+services:
+  mongodb:
+    image: mongo
+    container_name: reservation_mongodb
+    restart: always
+    ports:
+      - 37017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+
+  zookeeper:
+    image: bitnami/zookeeper:latest
+    container_name: reservation_zookeeper
+    ports:
+      - 2181:2181
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+  
+  kafka:
+    image: bitnami/kafka:latest
+    container_name: reservation_kafka
+    ports:
+      - 9092:9092
+      - 29092:29092
+    environment:
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,PLAINTEXT_HOST://:29092
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+    depends_on:
+      - zookeeper
+  
+  # api-gateway:
+  #   build:
+  #     context: .
+  #     dockerfile: $PWD/api-gateway/Dockerfile
+  #   container_name: reservation_api_gateway
+  #   volumes:
+  #     - .:/usr/src/app
+  #   expose:
+  #     - "3000"
+  #   ports:
+  #     - "3000:3000"
+  #   command: npm run start
+  #   depends_on:
+  #     - kafka
+
+  # reservation-service:
+  #   build:
+  #     context: .
+  #     dockerfile: $PWD/reservation-service/Dockerfile
+  #   container_name: reservation_service
+  #   volumes:
+  #     - .:/usr/src/app
+  #   command: npm run start
+  #   depends_on:
+  #     - kafka
+  
+      
