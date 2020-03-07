@@ -42,7 +42,7 @@ Run this node script from `api-gateway` directory:
 node ./src/seed/run.js
 ```
 
-## Setup & start services (Without docker):
+## Setup & start services (With docker):
 
 This will start all the docker containers and also will create kafka topic & seed initial data.
 ```bash
