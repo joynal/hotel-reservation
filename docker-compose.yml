@@ -9,6 +9,8 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: admin
+    networks:
+      - reservation_network
 
   zookeeper:
     image: bitnami/zookeeper:latest
@@ -17,7 +19,9 @@ services:
       - 2181:2181
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
-  
+    networks:
+      - reservation_network
+
   kafka:
     image: bitnami/kafka:latest
     container_name: reservation_kafka
@@ -32,31 +36,10 @@ services:
       - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
     depends_on:
       - zookeeper
-  
-  # api-gateway:
-  #   build:
-  #     context: .
-  #     dockerfile: $PWD/api-gateway/Dockerfile
-  #   container_name: reservation_api_gateway
-  #   volumes:
-  #     - .:/usr/src/app
-  #   expose:
-  #     - "3000"
-  #   ports:
-  #     - "3000:3000"
-  #   command: npm run start
-  #   depends_on:
-  #     - kafka
+    networks:
+      - reservation_network
 
-  # reservation-service:
-  #   build:
-  #     context: .
-  #     dockerfile: $PWD/reservation-service/Dockerfile
-  #   container_name: reservation_service
-  #   volumes:
-  #     - .:/usr/src/app
-  #   command: npm run start
-  #   depends_on:
-  #     - kafka
-  
-      
+networks:
+  reservation_network:
+    external:
+      name: "reservation_network"

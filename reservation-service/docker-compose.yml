@@ -6,3 +6,10 @@ services:
     volumes:
       - .:/usr/src/app
     command: npm run start
+    networks:
+      - reservation_network
+
+networks:
+  reservation_network:
+    external:
+      name: reservation_network

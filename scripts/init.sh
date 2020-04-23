@@ -6,6 +6,9 @@ docker-compose up -d
 # give some time to bacame kafka avaiable
 sleep 20
 
+# create docker docker network
+docker network create reservation_network
+
 # create room-reservation topic
 docker exec -it reservation_kafka sh -c "/opt/bitnami/kafka/bin/kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 3 --topic room-reservation"
 
